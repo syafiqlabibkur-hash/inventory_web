@@ -174,43 +174,36 @@
                     <tbody>
                         {% for item in rows %}
                         <tr>
-                            <form action="{{ url_for('edit_barang', kode=item.kode) }}" method="POST">
-                                <td>{{ item.kode }}</td>
-                                <td>
-                                    <input name="nama" value="{{ item.nama }}">
-                                </td>
-                                <td>
-                                    <input name="kategori" value="{{ item.kategori }}">
-                                </td>
-                                <td>
-                                    <input name="satuan" value="{{ item.satuan }}">
-                                </td>
-                                <td>
-                                    <input type="number" name="stok" value="{{ item.stok }}">
-                                </td>
-                                <td>
-                                    <button type="submit">Simpan</button>
-                            </form>
+                            <td>{{ item.kode }}</td>
 
-                            <form action="{{ url_for('hapus_barang') }}" method="POST" style="display:inline;">
-                                <input type="hidden" name="kode" value="{{ item.kode }}">
-                                <button type="submit" onclick="return confirm('Yakin mau hapus barang ini?')">
-                                    Hapus
-                                </button>
-                            </form>
+                            <form id="edit-{{ loop.index }}" action="{{ url_for('edit_barang', kode=item.kode) }}"
+                                method="POST"></form>
+
+                            <td>
+                                <input form="edit-{{ loop.index }}" name="nama" value="{{ item.nama }}">
+                            </td>
+                            <td>
+                                <input form="edit-{{ loop.index }}" name="kategori" value="{{ item.kategori }}">
+                            </td>
+                            <td>
+                                <input form="edit-{{ loop.index }}" name="satuan" value="{{ item.satuan }}">
+                            </td>
+                            <td>
+                                <input form="edit-{{ loop.index }}" type="number" name="stok" value="{{ item.stok }}">
+                            </td>
+
+                            <td>
+                                <button form="edit-{{ loop.index }}" type="submit">Simpan</button>
+
+                                <form action="{{ url_for('hapus_barang') }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="kode" value="{{ item.kode }}">
+                                    <button type="submit" onclick="return confirm('Yakin mau hapus barang ini?')">
+                                        Hapus
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         {% endfor %}
-                    </tbody>
-                    {% for item in rows %}
-                    <tr>
-                        <td>{{ item.kode }}</td>
-                        <td>{{ item.nama }}</td>
-                        <td>{{ item.kategori }}</td>
-                        <td>{{ item.satuan }}</td>
-                        <td>{{ item.stok }} pcs</td>
-                    </tr>
-                    {% endfor %}
                     </tbody>
                 </table>
             </div>
