@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f6;
+            color: #1f2937;
+        }
+
+        .topbar {
+            background: #1f3b5b;
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .topbar p {
+            margin: 6px 0 0;
+            color: #dbe7f5;
+        }
+
+        .user-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            text-decoration: none;
+            border: none;
+            background: #2f6fed;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #cfd8e3;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #5b6575;
+        }
+
+        .stat {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div>
+            <h1>📦 Inventory System</h1>
+            <p>Manage your stock efficiently</p>
+        </div>
+        <div class="user-box">
+            <span>👤 {{ user }}</span>
+            <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats-grid">
+            <div class="card">
+                <h3>Total Barang</h3>
+                <div class="stat">{{ total_barang }}</div>
+            </div>
+            <div class="card">
+                <h3>Total Stok</h3>
+                <div class="stat">{{ total_stok }} pcs</div>
+            </div>
+        </div>
+
+        <div class="menu-grid">
+            <a class="btn" href="{{ url_for('barang') }}">Data Barang</a>
+            <a class="btn" href="{{ url_for('transaksi') }}">Transaksi</a>
+        </div>
+    </main>
+</body>
+
+</html>

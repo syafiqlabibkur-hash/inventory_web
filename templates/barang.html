@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Barang</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f6;
+            color: #1f2937;
+        }
+
+        .topbar {
+            background: #1f3b5b;
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .topbar p {
+            margin: 6px 0 0;
+            color: #dbe7f5;
+        }
+
+        .user-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            text-decoration: none;
+            border: none;
+            background: #2f6fed;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #cfd8e3;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .form-grid input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #cfd8e3;
+            border-radius: 10px;
+        }
+
+        button {
+            border: none;
+            background: #2f6fed;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .alert {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div>
+            <h1>📦 Data Barang</h1>
+            <p>User: {{ user }}</p>
+        </div>
+        <div class="user-box">
+            <a href="{{ url_for('dashboard') }}" class="btn">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if error %}
+        <div class="alert">{{ error }}</div>
+        {% endif %}
+
+        <div class="card">
+            <h3>Tambah Barang</h3>
+            <form method="POST" class="form-grid">
+                <input name="kode" placeholder="No Lot">
+                <input name="nama" placeholder="Produk">
+                <input type="text" name="kategori" placeholder="Kategori">
+                <input type="text" name="satuan" placeholder="Satuan">
+                <input type="number" name="stok" placeholder="Stok">
+                <button type="submit">Simpan</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Daftar Barang</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No Lot</th>
+                            <th>Produk</th>
+                            <th>Kategori</th>
+                            <th>Satuan</th>
+                            <th>Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in rows %}
+                        <tr>
+                            <td>{{ item.kode }}</td>
+                            <td>{{ item.nama }}</td>
+                            <td>{{ item.kategori }}</td>
+                            <td>{{ item.satuan }}</td>
+                            <td>{{ item.stok }} pcs</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            background: white;
+            width: 320px;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .login-card h1 {
+            margin: 0 0 8px;
+            color: #1f3b5b;
+        }
+
+        .login-card p {
+            margin: 0 0 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .login-card button {
+            width: 100%;
+            padding: 12px;
+            background: #2f6fed;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-card button:hover {
+            background: #1f5ad1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <h1>Inventory System</h1>
+        <p>Silakan login untuk masuk</p>
+
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Masukkan username" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+
+</html>
