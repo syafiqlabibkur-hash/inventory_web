@@ -111,6 +111,22 @@ class SheetsDB:
             [current_user, kode, nama, kategori, satuan, stok, self.now_str()]
         )
 
+    def get_transaksi(self, user):
+        records = self.transaksi_sheet.get_all_records()
+
+        hasil = []
+        for row in records:
+            if str(row.get("user", "")).strip() == str(user).strip():
+                hasil.append({
+                    "tanggal": row.get("tanggal", ""),
+                    "nama_barang": row.get("nama_barang", ""),
+                    "jenis": row.get("jenis", ""),
+                    "jumlah": row.get("jumlah", ""),
+                    "keterangan": row.get("keterangan", "")
+                })
+
+        return hasil
+
     def edit_barang(self, current_user: str, kode_lama: str, nama: str, kategori: str, satuan: str, stok: int):
         records = self.ws_barang.get_all_records()
 
