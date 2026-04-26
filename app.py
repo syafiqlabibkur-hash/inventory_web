@@ -143,19 +143,18 @@ class SheetsDB:
 
         raise ValueError("Barang tidak ditemukan.")
 
+    def hapus_barang(self, current_user: str, kode_barang: str):
+        records = self.ws_barang.get_all_records()
 
-def hapus_barang(self, current_user: str, kode_barang: str):
-    records = self.ws_barang.get_all_records()
+        for idx, row in enumerate(records, start=2):
+            user = str(row.get("user", "")).strip()
+            kode = str(row.get("kode", "")).strip()
 
-    for idx, row in enumerate(records, start=2):
-        user = str(row.get("user", "")).strip()
-        kode = str(row.get("kode", "")).strip()
+            if user.lower() == current_user.lower() and kode == kode_barang:
+                self.ws_barang.delete_rows(idx)
+                return
 
-        if user.lower() == current_user.lower() and kode == kode_barang:
-            self.ws_barang.delete_rows(idx)
-            return
-
-    raise ValueError("Barang tidak ditemukan.")
+        raise ValueError("Barang tidak ditemukan.")
 
     def get_transaksi(self, current_user: str) -> List[Dict]:
         records = self.ws_transaksi.get_all_records()
