@@ -417,13 +417,14 @@ def edit_barang(kode):
     return redirect(url_for("barang"))
 
 
-@app.route("/barang/hapus/<kode>", methods=["POST"])
-def hapus_barang(kode):
+@app.route("/barang/hapus", methods=["POST"])
+def hapus_barang():
     user = session.get("user")
 
     if not user:
         return redirect(url_for("home"))
 
+    kode = request.form.get("kode", "").strip()
     db = get_db()
 
     try:
@@ -431,7 +432,6 @@ def hapus_barang(kode):
             current_user=user,
             kode_barang=kode
         )
-
     except Exception as e:
         print("ERROR HAPUS:", e)
 
