@@ -111,6 +111,36 @@ class SheetsDB:
             [current_user, kode, nama, kategori, satuan, stok, self.now_str()]
         )
 
+    def edit_barang(self, current_user: str, kode_lama: str, nama: str, kategori: str, satuan: str, stok: int):
+        records = self.ws_barang.get_all_records()
+
+        for idx, row in enumerate(records, start=2):
+            user = str(row.get("user", "")).strip()
+            kode = str(row.get("kode", "")).strip()
+
+            if user.lower() == current_user.lower() and kode == kode_lama:
+                self.ws_barang.update(
+                    f"C{idx}:G{idx}",
+                    [[nama, kategori, satuan, stok, self.now_str()]]
+                )
+                return
+
+        raise ValueError("Barang tidak ditemukan.")
+
+
+def hapus_barang(self, current_user: str, kode_barang: str):
+    records = self.ws_barang.get_all_records()
+
+    for idx, row in enumerate(records, start=2):
+        user = str(row.get("user", "")).strip()
+        kode = str(row.get("kode", "")).strip()
+
+        if user.lower() == current_user.lower() and kode == kode_barang:
+            self.ws_barang.delete_rows(idx)
+            return
+
+    raise ValueError("Barang tidak ditemukan.")
+
     def get_transaksi(self, current_user: str) -> List[Dict]:
         records = self.ws_transaksi.get_all_records()
         rows = []
@@ -357,6 +387,57 @@ def transaksi():
     )
 
 
+@app.route("/barang/edit/<kode>", methods=["POST"])
+def edit_barang(kode):
+    user = session.get("user")
+
+    if not user:
+        return redirect(url_for("home"))
+
+    db = get_db()
+
+    try:
+        nama = request.form.get("nama", "").strip()
+        kategori = request.form.get("kategori", "").strip()
+        satuan = request.form.get("satuan", "").strip()
+        stok = int(request.form.get("stok", 0))
+
+        db.edit_barang(
+            current_user=user,
+            kode_lama=kode,
+            nama=nama,
+            kategori=kategori,
+            satuan=satuan,
+            stok=stok,
+        )
+
+    except Exception as e:
+        print("ERROR EDIT:", e)
+
+    return redirect(url_for("barang"))
+
+
+@app.route("/barang/hapus/<kode>", methods=["POST"])
+def hapus_barang(kode):
+    user = session.get("user")
+
+    if not user:
+        return redirect(url_for("home"))
+
+    db = get_db()
+
+    try:
+        db.hapus_barang(
+            current_user=user,
+            kode_barang=kode
+        )
+
+    except Exception as e:
+        print("ERROR HAPUS:", e)
+
+    return redirect(url_for("barang"))
+
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
@@ -364,4 +445,6 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
